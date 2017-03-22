@@ -4,6 +4,7 @@
 */Binaries/
 */Saved/
 */DerivedDataCache/
+*.suo
 
 # Content Files
 BuildingEscape/Content/StarterContent/
