@@ -27,21 +27,14 @@ void UOpenDoor::BeginPlay()
 }
 
 void UOpenDoor::OpenDoor() {
-	// Rotator
-	FRotator NewRotation = FRotator(0.0f, -60.0f, 0.0f);
-
 	// Set the rotation
-	Owner->SetActorRotation(NewRotation);
+	Owner->SetActorRotation(FRotator(0.0f, openAngle, 0.0f));
 }
 
 
 void UOpenDoor::CloseDoor() {
-
-	// Rotator
-	FRotator NewRotation = FRotator(0.0f, -60.0f, 0.0f);
-
 	// Set the rotation
-	Owner->SetActorRotation(NewRotation);
+	Owner->SetActorRotation(FRotator(0.0f, 0.0f, 0.0f));
 }
 
 
@@ -56,6 +49,8 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 		LastDoorOpenTime = GetWorld()->GetTimeSeconds();
 	}
 
-	GetWorld()->GetTimeSeconds();
+	if (GetWorld()->GetTimeSeconds() - LastDoorOpenTime > DoorCloseDelay) {
+		CloseDoor();
+	}
 }
 
