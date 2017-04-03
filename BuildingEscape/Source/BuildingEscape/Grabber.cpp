@@ -50,7 +50,7 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	);*/
 
 	// Draw a red line to visualise our 
-	FVector LineTraceEnd = pPos + FVector(0.0f,50.0f,0.0f);
+	FVector LineTraceEnd = pPos + (pRot.Vector() * Reach);
 
 	DrawDebugLine(
 		GetWorld(),
@@ -62,5 +62,29 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 		0.0f,
 		10.0f
 	);
+
+	FHitResult Hit;
+	FCollisionQueryParams TraceParams(FName(TEXT("")), false, GetOwner());
+
+
+	// Line Trace
+	GetWorld()->LineTraceSingleByObjectType(
+		OUT Hit,
+		pPos,
+		LineTraceEnd,
+		FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody),
+		FCollisionQueryParams(TraceParams)
+	);
+
+	AActor* ActorHit = Hit.GetActor();
+	if (ActorHit) {
+		UE_LOG(
+			LogTemp, 
+			Warning, 
+			TEXT("Actor: %s"), 
+			*(ActorHit->GetName())
+		);
+	}
+
 }
 
